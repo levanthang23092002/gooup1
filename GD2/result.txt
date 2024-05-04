@@ -1,0 +1,10 @@
+./files/file1.json: NOK & Cover
+./files/file2.json: OK
+./files/file7.json: NOK & Cover
+./files/file4.json: OK
+./files/file5.json: NOK & Cover
+./files/file3.json: NOK & Cover
+./files/file6.json: OK
+./files/file8.json: OK
+./files/file9.json: NOK & Cover
+./files/file10.json: OK

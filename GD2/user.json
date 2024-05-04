@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "role": "User",
+    "gender": "Male",
+    "nationality": "USA"
+  },
+  {
+    "id": 5,
+    "name": "John Doe",
+    "role": "User",
+    "gender": "Male",
+    "nationality": "USA"
+  },
+  {
+    "id": 6,
+    "name": "Admin",
+    "role": "user",
+    "gender": "nam",
+    "nationality": "Việt Nam"
+  },
+  {
+    "id": 2,
+    "name": "Tân",
+    "role": "Admin",
+    "gender": "Nam",
+    "nationality": "VN"
+  }
+]

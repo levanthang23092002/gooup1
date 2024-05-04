@@ -1,0 +1,2 @@
+Thiết kế cơ sở dữ liệu là gì?
+Thiết kế cơ sở dữ liệu (Database design) là quá trình xác định và tổ chức cấu trúc dữ liệu trong cơ sở dữ liệu để đáp ứng các yêu cầu của hệ thống. Quá trình này bao gồm xác định các bảng, trường, ràng buộc, và quan hệ giữa chúng.
