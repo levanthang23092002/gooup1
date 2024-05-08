@@ -1,10 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport');
 
 const authRouter = require('./routes/authRoutes');
 const user = require('./routes/apiRoutes');
 const swagger = require('./swagger');
+require('./model/passportFacebook');
 require('./model/passportGoogle');
 
 const corsOptions = {
@@ -14,6 +17,22 @@ const corsOptions = {
   }
 
 const app = express();
+passport.serializeUser((user, done) => {
+  // Tuần tự hóa thông tin người dùng thành một chuỗi
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  // Giải tuần tự hóa chuỗi thành thông tin người dùng
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
+app.use(session({
+  secret: process.env.secret,
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(express.json());
 app.use(cors(corsOptions));
 // connectToPostgreSQL();

@@ -17,8 +17,9 @@ passport.use(new GoogleStrategy({
 
         if (profile?.email) {
             try {
+                const type ='gg'
                 const client = await pool.connect();
-                const result = await client.query('SELECT * FROM users WHERE email = $1', [profile.email]);
+                const result = await client.query('SELECT * FROM users WHERE email = $1 AND type = $2', [profile.email,type]);
                 client.release();
                 const token = jwt.sign({ user: [profile?.provider,profile?.id,profile?.displayName,profile?.email,] }, process.env.JWT_SECRET);
                 
@@ -29,7 +30,7 @@ passport.use(new GoogleStrategy({
                     done(null,profile,token);
                 } else {
                     const registerClient = await pool.connect();
-                    const registerResult = await registerClient.query('INSERT INTO users (idUser, name, phone, address, email, password) VALUES (NEXTVAL($1), $2, $3, $4, $5, $6)', ['seq_MyCustom_Id', profile?.displayName, null, 'việt nam', profile?.email, 'pass123']);
+                    const registerResult = await registerClient.query('INSERT INTO users (idUser, name, phone, address, email, password, type) VALUES (NEXTVAL($1), $2, $3, $4, $5, $6, $7)', ['seq_MyCustom_Id', profile?.displayName, null, 'việt nam', profile?.email, null,type]);
 
                     registerClient.release();
                     console.log(token);
