@@ -4,10 +4,7 @@ const express = require('express');
 const router = express.Router();
 require('dotenv').config();
 
-router.get('/google',
-    passport.authenticate('google', { scope: ['profile', 'email'], session: false }
-    ));
-
+router.get('/google',passport.authenticate('google', { scope: ['profile', 'email'], session: false }));
 router.get('/google/callback', (req, res, next) => {
     passport.authenticate('google', (err, profile, accessToken) => {
         req.user = profile;
@@ -20,9 +17,7 @@ router.get('/google/callback', (req, res, next) => {
 }
 );
 
-router.get('/facebook',
-  passport.authenticate('facebook',{ scope: [ 'email'], session: false}));
-
+router.get('/facebook',passport.authenticate('facebook',{ scope: ['profile', 'email'], session: false}));
 router.get('/facebook/callback',
   passport.authenticate('facebook'),
   function(req, res) {
@@ -30,9 +25,7 @@ router.get('/facebook/callback',
     res.redirect(`${process.env.url}/login`);
   });
 
-router.get('/login', (req, res) => {
-    res.send("login success");
-})
+router.get('/login', (req, res) => { res.send("login success"); })
 
 
 module.exports = router

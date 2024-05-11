@@ -1,14 +1,14 @@
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const verifyToken = require('./controllers/verifyToken');
+const verifyToken = require('./verifyToken');
 const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Hero API',
-      description: 'Example of CRUD API ',
+      title: 'Homework NodeJs',
+      description: 'làm bài tập với nodejs',
       version: '1.0.0',
-      
+
     },
     components: {
       securitySchemes: {
@@ -32,7 +32,7 @@ const options = {
 const swaggerSpec = swaggerJsdoc(options)
 
 function swaggerDocs(app, port) {
-  // Swagger Page
+  
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
   // Documentation in JSON format

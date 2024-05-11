@@ -12,7 +12,7 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+    
     // Cung cấp thông tin người dùng được xác thực cho các middleware hoặc controller khác, nếu cần
     req.user = decoded;
 

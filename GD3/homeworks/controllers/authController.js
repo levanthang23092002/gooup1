@@ -1,4 +1,4 @@
-const User = require('../model/connect');
+const User = require('../services/connect');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
