@@ -6,6 +6,7 @@ const verifyToken = require('../config/verifyToken')
 const permission = require('../middlewares/checkPermission')
 
 
+
 /**
  * @openapi
  * '/api/allhotel':
@@ -368,6 +369,47 @@ router.put('/approveRoom/:id',  permission.permission(['ADMIN']),  userControlle
  *         description: Unauthorized
  */
 router.post('/bookingRoom/:id',  permission.permission(['USER']),  userController.bookRoom);
+
+/**
+ * @openapi
+ * /api/register:
+ *   post:
+ *     tags:
+ *       - Register
+ *     summary: đăng kí email
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               address:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: number
+ *                 name:
+ *                   type: string
+ *       '400':
+ *         description: Unauthorized
+ */
+router.post('/register',  userController.register);
 /**
  * @openapi
  * '/api/room':

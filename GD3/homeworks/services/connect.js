@@ -209,15 +209,22 @@ const User = {
       }
     });
   },
-  register: async (userData, callback) => {
-    const { idUser, name, phone, address, email, password } = userData;
-
+  register :async (userData, callback) => {
+   
     try {
-
-      const query = "INSERT INTO users (idUser, name, phone, address, email, password) VALUES ($1, $2, $3, $4, $5, $6)";
-      const values = [idUser, name, phone, address, email, password];
-
-      pool.query(query, values, (error, results) => {
+      // Kiểm tra xem email đã tồn tại trong cơ sở dữ liệu chưa
+      const checkEmailQuery = "SELECT * FROM users WHERE email = $1 and type is null";
+      const checkEmailResult = await pool.query(checkEmailQuery, [userData[4]]);
+  
+      if (checkEmailResult.rows.length > 0) {
+        // Email đã tồn tại
+        callback('Email already exists', null);
+        return;
+      }
+      const query = "INSERT INTO users (idUser, name, phone, address, email, password, role) VALUES (NEXTVAL($1), $2, $3, $4, $5, $6 , $7 )";
+      
+  
+      pool.query(query, userData, (error, results) => {
         if (error) {
           console.error('Error executing query:', error);
           callback(error, null);
@@ -226,11 +233,10 @@ const User = {
         }
       });
     } catch (error) {
-      console.error('Error hashing password:', error);
+      console.error('Error during registration:', error);
       callback(error, null);
     }
   },
-
 
 
   login: (userData, callback) => {

@@ -1,6 +1,8 @@
 const User = require('../services/connect');
 const permission = require('../middlewares/checkPermission')
 const jwt = require('jsonwebtoken');
+const sendEmail = require('../controllers/emailController')
+
 
 
 
@@ -264,6 +266,30 @@ exports.addRoom = (req, res) => {
         error: error
       });
     } else {
+      res.status(200).json({
+        success: true,
+        message: 'User registered successfully',
+        data: result
+      });
+    }
+  });
+};
+exports.register = (req, res) => {
+  // Extract user data from request body
+  const {  name, phone, address, email, password } = req.body;
+  const data = ['seq_MyCustom_Id', name, phone, address, email, password,'USER']
+  console.log(data)
+  // Perform registration logic
+  // Example: Assuming you have a register function in your User module
+  User.register(data, (error, result) => {
+    if (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+        error: error
+      });
+    } else {
+      sendEmail.sendEmail(data);
       res.status(200).json({
         success: true,
         message: 'User registered successfully',
