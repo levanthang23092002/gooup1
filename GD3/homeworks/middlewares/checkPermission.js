@@ -27,7 +27,7 @@ const hours = String(currentDate.getHours()).padStart(2, '0');
 const minutes = String(currentDate.getMinutes()).padStart(2, '0');
 const seconds = String(currentDate.getSeconds()).padStart(2, '0');
 
-const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+const formattedDateTime = `${year}-${month}-${day}-${hours}-${minutes}-${seconds}`;
 
 return formattedDateTime;
 }
