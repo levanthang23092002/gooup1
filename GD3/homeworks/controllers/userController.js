@@ -278,7 +278,7 @@ exports.register = (req, res) => {
   // Extract user data from request body
   const {  name, phone, address, email, password } = req.body;
   const data = ['seq_MyCustom_Id', name, phone, address, email, password,'USER']
-  console.log(data)
+
   // Perform registration logic
   // Example: Assuming you have a register function in your User module
   User.register(data, (error, result) => {
@@ -365,23 +365,23 @@ exports.getUser = (req, res) => {
   User.getUser(userId, (error, results) => {
     if (error) {
       res.status(500).json({
-        success: false,
-        message: 'Internal server error',
+        success: res.__('fail'),
+        message: res.__('error_message'),
         data: {},
         error_code: error
       });
     } else {
       if (results.length === 0) {
         res.status(404).json({
-          success: false,
-          message: 'User not found',
+          success: res.__('fail'),
+          message: res.__('user_not_found'),
           data: {},
           error_code: ''
         });
       } else {
         res.status(200).json({
-          success: true,
-          message: 'Successfully retrieved user',
+          success: res.__('Successfully'),
+          message: res.__('Success'),
           data: results,
           error_code: ''
         });
@@ -395,23 +395,23 @@ exports.getAllRoomBooking = (req, res) => {
   User.getAllRoomBooking(userId, (error, results) => {
     if (error) {
       res.status(500).json({
-        success: false,
-        message: 'Internal server error',
+        success: res.__('fail'),
+        message: res.__('error_message'),
         data: {},
         error_code: error
       });
     } else {
       if (results.length === 0) {
         res.status(404).json({
-          success: false,
-          message: 'No room bookings found',
+          success: res.__('fail'),
+          message: res.__('user_not_found'),
           data: {},
           error_code: ''
         });
       } else {
         res.status(200).json({
-          success: true,
-          message: 'Successfully retrieved room bookings',
+          success: res.__('Successfully'),
+          message: res.__('Success'),
           data: results,
           error_code: ''
         });
@@ -425,23 +425,23 @@ exports.getRoomBooking = (req, res) => {
   User.getRoomBooking(roomId, (error, results) => {
     if (error) {
       res.status(500).json({
-        success: false,
-        message: 'Internal server error',
+        success: res.__('fail'),
+        message: res.__('error_message'),
         data: {},
         error_code: error
       });
     } else {
       if (results.length === 0) {
         res.status(404).json({
-          success: false,
-          message: 'Room booking not found',
+          success: res.__('fail'),
+          message: res.__('user_not_found'),
           data: {},
           error_code: ''
         });
       } else {
         res.status(200).json({
-          success: true,
-          message: 'Successfully retrieved room booking',
+          success: res.__('Successfully'),
+          message: res.__('Success'),
           data: results,
           error_code: ''
         });
@@ -454,26 +454,26 @@ exports.getAllEvaluate = (req, res) => {
   User.getAllEvaluate((error, results) => {
     if (error) {
       res.status(500).json({
-        success: false,
-        message: 'Internal server error',
+        success: res.__('fail'),
+        message: res.__('error_message'),
         data: {},
         error_code: error
       });
     } else {
       if (results.length === 0) {
         res.status(404).json({
-          success: false,
-          message: 'No evaluations found',
+          success: res.__('fail'),
+          message: res.__('user_not_found'),
           data: {},
           error_code: ''
         });
       } else {
         res.status(200).json({
-          success: true,
-          message: 'Successfully retrieved evaluations',
+          success: res.__('Successfully'),
+          message: res.__('Success'),
           data: results,
           error_code: ''
-        })
+        });
       }
     }
   })

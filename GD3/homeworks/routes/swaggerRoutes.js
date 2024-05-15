@@ -438,7 +438,7 @@ router.post('/register',  userController.register);
  */
 
 
-router.get('/room', verifyToken, userController.getAllRoom)
+router.get('/room', userController.getAllRoom)
 
 /**
  * @openapi
