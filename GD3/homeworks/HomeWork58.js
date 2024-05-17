@@ -47,7 +47,7 @@ function checkCache(req, res, next) {
 
 
 
-app.use('/',user);
+app.use('/',checkCache, user);
 const port = process.env.PORT || 5000;
 app.use('/test',async(req, res)=>{
     res.send({id:1 ,name: 'thắng'})

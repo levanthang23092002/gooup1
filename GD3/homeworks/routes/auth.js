@@ -40,7 +40,7 @@ router.get('/hotels/:idhotel',(req, res, next) =>{
         next();
       } else {
         const responseData = { data: results };
-        redisClient.setex(cacheKey, 60, JSON.stringify(responseData));
+        redisClient.setex(cacheKey,60 , JSON.stringify(responseData));
         res.send(responseData);
       }
     });
