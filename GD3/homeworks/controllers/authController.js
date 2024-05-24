@@ -4,11 +4,11 @@ const jwt = require('jsonwebtoken');
 
 exports.register = (req, res) => {
   // Extract user data from request body
-  const { idUser, name, phone, address, email, password } = req.body;
-
+  const {  name, phone, address, email, password } = req.body;
+  const idUser ='seq_MyCustom_Id' ;
   // Perform registration logic
   // Example: Assuming you have a register function in your User module
-  User.register({ idUser, name, phone, address, email, password }, (error, result) => {
+  User.register({idUser , name, phone, address, email, password }, (error, result) => {
     if (error) {
       res.status(500).json({
         success: false,
@@ -24,9 +24,7 @@ exports.register = (req, res) => {
     }
   });
 };
-exports.loginSuccess = ()=>{
- 
-};
+
 
 exports.login = (req, res) => {
   // Extract user credentials from request body

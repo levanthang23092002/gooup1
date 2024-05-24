@@ -6,10 +6,18 @@ const passport = require('passport');
 const users = require('./routes/auth');
 const authRouter = require('./routes/authRoutes');
 const user = require('./routes/swaggerRoutes');
+const path = require('path'); 
 const swagger = require('./config/swagger');
 require('./config/passportFacebook');
 require('./config/passportGoogle');
+const i18n = require('i18n');
 
+i18n.configure({
+  locales: ['en', 'vi'],
+  directory: path.join(__dirname, '/translation'),
+  defaultLocale: 'vi',
+  queryParameter: 'lang', // Sử dụng tham số query để thiết lập ngôn ngữ
+});
 const corsOptions = {
   origin: '*', // Chỉ cho phép truy cập từ tất cả các nguồn 
   methods: ['GET', 'POST','PUT', 'DELETE'], // Chỉ cho phép các phương thức GET và POST
@@ -36,7 +44,16 @@ app.use(session({
 app.use(express.json());
 app.use(cors(corsOptions));
 // connectToPostgreSQL();
+app.use(i18n.init);
 
+
+app.use((req, res, next) => {
+  const lang = req.query.lang;
+  if (lang) {
+    i18n.setLocale(req, lang);
+  }
+  next();
+});
 app.use('/api/auth', authRouter)
 app.use('/api', user);
 app.use('/users', users);

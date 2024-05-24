@@ -74,26 +74,34 @@ exports.updateHotel = (req, res) => {
     if (error) {
       res.status(500).json({
         success: false,
-        message: 'Internal server error',
+        message: 'Lỗi Hệ Thống',
         data: req.body,
         error_code: error
       });
     } else {
-      if (results.length === 0) {
-
-        res.status(200).json({
-          success: true,
-          message: 'Successfully updated hotel',
-          data: values,
+      if (results === "Not Found") {
+        res.status(404).json({
+          success: false,
+          message: "Không Tìm Thấy",
+          data: {},
           error_code: ''
         });
       } else {
-        res.status(404).json({
-          success: false,
-          message: 'Hotel not found',
-          data: req.body,
-          error_code: ''
-        });
+        if (results === 1) {
+          res.status(401).json({
+            success: false,
+            message: 'KHách Sạn Đã Bị Xóa',
+            data: null,
+            error_code: ''
+          });
+        } else {
+          res.status(200).json({
+            success: true,
+            message: 'Thành công',
+            data: values,
+            error_code: ''
+          });
+        }
       }
     }
   });
@@ -110,7 +118,8 @@ exports.deleteHotel = (req, res) => {
         error_code: error
       });
     } else {
-      if (results.length === 0) {
+
+      if (results === 0) {
         res.status(404).json({
           success: false,
           message: 'User not found',
@@ -139,7 +148,7 @@ exports.getalladmin = (req, res) => {
         error_code: error
       });
     } else {
-      if (results.length === 0) {
+      if (results === 0) {
         res.status(404).json({
           success: false,
           message: 'User not found',
@@ -203,19 +212,20 @@ exports.updateAdmin = (req, res) => {
         error_code: error
       });
     } else {
-      if (results.length === 0) {
-
-        res.status(200).json({
-          success: true,
-          message: 'Successfully updated hotel',
-          data: values,
-          error_code: ''
-        });
-      } else {
+      console.log(results)
+      if (results === 0) {
         res.status(404).json({
           success: false,
-          message: 'Hotel not found',
+          message: 'Addmin not found',
           data: req.body,
+          error_code: ''
+        });
+
+      } else {
+        res.status(200).json({
+          success: true,
+          message: 'Successfully updated Addmin',
+          data: values,
           error_code: ''
         });
       }
@@ -274,30 +284,6 @@ exports.addRoom = (req, res) => {
     }
   });
 };
-exports.register = (req, res) => {
-  // Extract user data from request body
-  const {  name, phone, address, email, password } = req.body;
-  const data = ['seq_MyCustom_Id', name, phone, address, email, password,'USER']
-
-  // Perform registration logic
-  // Example: Assuming you have a register function in your User module
-  User.register(data, (error, result) => {
-    if (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Internal server error',
-        error: error
-      });
-    } else {
-      sendEmail.sendEmail(data);
-      res.status(200).json({
-        success: true,
-        message: 'User registered successfully',
-        data: result
-      });
-    }
-  });
-};
 exports.approveRoom = (req, res) => {
   const idRoom = req.params.id;
   User.proveRoom(idRoom, (error, results) => {
@@ -309,19 +295,18 @@ exports.approveRoom = (req, res) => {
         error_code: error
       });
     } else {
-      if (results.length === 0) {
-
-        res.status(200).json({
-          success: true,
-          message: 'Successfully updated hotel',
-          data: {},
-          error_code: ''
-        });
-      } else {
+      if (results === 0) {
         res.status(404).json({
           success: false,
           message: 'room not found',
           data: req.body,
+          error_code: ''
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: 'Successfully updated hotel',
+          data: {},
           error_code: ''
         });
       }
@@ -335,11 +320,11 @@ exports.bookRoom = (req, res) => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
 
-  
-const checkin = permission.getdaytime();
-console.log(checkin);
 
-  const roomData = ['seq_reser_id', decoded?.user.iduser , checkin, idroom]
+  const checkin = permission.getdaytime();
+  console.log(checkin);
+
+  const roomData = ['seq_reser_id', decoded?.user.iduser, checkin, idroom]
   console.log(roomData)
   // Perform registration logic
   // Example: Assuming you have a register function in your User module
@@ -365,23 +350,23 @@ exports.getUser = (req, res) => {
   User.getUser(userId, (error, results) => {
     if (error) {
       res.status(500).json({
-        success: res.__('fail'),
-        message: res.__('error_message'),
+        success: false,
+        message: 'Internal server error',
         data: {},
         error_code: error
       });
     } else {
       if (results.length === 0) {
         res.status(404).json({
-          success: res.__('fail'),
-          message: res.__('user_not_found'),
+          success: false,
+          message: 'No found',
           data: {},
           error_code: ''
         });
       } else {
         res.status(200).json({
-          success: res.__('Successfully'),
-          message: res.__('Success'),
+          success: true,
+          message: 'Thành công',
           data: results,
           error_code: ''
         });
@@ -395,23 +380,23 @@ exports.getAllRoomBooking = (req, res) => {
   User.getAllRoomBooking(userId, (error, results) => {
     if (error) {
       res.status(500).json({
-        success: res.__('fail'),
-        message: res.__('error_message'),
+        success: false,
+        message: "Lỗi Hệ Thống",
         data: {},
         error_code: error
       });
     } else {
       if (results.length === 0) {
         res.status(404).json({
-          success: res.__('fail'),
-          message: res.__('user_not_found'),
+          success: false,
+          message: "Not Found",
           data: {},
           error_code: ''
         });
       } else {
         res.status(200).json({
-          success: res.__('Successfully'),
-          message: res.__('Success'),
+          success: true,
+          message: 'Thành công',
           data: results,
           error_code: ''
         });
@@ -425,23 +410,23 @@ exports.getRoomBooking = (req, res) => {
   User.getRoomBooking(roomId, (error, results) => {
     if (error) {
       res.status(500).json({
-        success: res.__('fail'),
-        message: res.__('error_message'),
+        success: false,
+        message: "Lỗi Hệ Thống",
         data: {},
         error_code: error
       });
     } else {
       if (results.length === 0) {
         res.status(404).json({
-          success: res.__('fail'),
-          message: res.__('user_not_found'),
+          success: false,
+          message: "Not Found",
           data: {},
           error_code: ''
         });
       } else {
         res.status(200).json({
-          success: res.__('Successfully'),
-          message: res.__('Success'),
+          success: true,
+          message: "Thành công",
           data: results,
           error_code: ''
         });
@@ -454,23 +439,23 @@ exports.getAllEvaluate = (req, res) => {
   User.getAllEvaluate((error, results) => {
     if (error) {
       res.status(500).json({
-        success: res.__('fail'),
-        message: res.__('error_message'),
+        success: false,
+        message: "Lỗi Hệ Thống",
         data: {},
         error_code: error
       });
     } else {
       if (results.length === 0) {
         res.status(404).json({
-          success: res.__('fail'),
-          message: res.__('user_not_found'),
+          success: false,
+          message: "Not Found",
           data: {},
           error_code: ''
         });
       } else {
         res.status(200).json({
-          success: res.__('Successfully'),
-          message: res.__('Success'),
+          success: true,
+          message: "Thành công",
           data: results,
           error_code: ''
         });
@@ -478,3 +463,71 @@ exports.getAllEvaluate = (req, res) => {
     }
   })
 }
+exports.login = (req, res) => {
+  // Extract user credentials from request body
+  const { email, password } = req.body;
+
+  // Perform login logic
+  User.login({ email, password }, (error, result) => {
+    if (error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Lỗi Hệ Thống',
+        error: error
+      });
+    } else if (result === 0) {
+      return res.status(401).json({
+        success: false,
+        message: 'Không Tìm Thấy Tài Khoản Này',
+        error: ''
+      });
+    } else {
+      if (result === 1) {
+        return res.status(402).json({
+          success: false,
+          message: 'Cần Điền Đủ Thông Tin',
+          error: ''
+        });
+      } else {
+        return res.status(200).json({
+          success: true,
+          message: 'User logged in successfully',
+          data: result
+        });
+      }
+
+    }
+  });
+};
+exports.register = (req, res) => {
+  // Extract user data from request body
+  const { name, phone, address, email, password } = req.body;
+  const data = ['seq_MyCustom_Id', name, phone, address, email, password, 'USER']
+
+  // Perform registration logic
+  // Example: Assuming you have a register function in your User module
+  User.register(data, (error, result) => {
+    if (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+        error: error
+      });
+    } else
+      if (result === 1) {
+        res.status(401).json({
+          success: false,
+          message: "Email Đã Tồn Tại",
+          data: {}
+        });
+      } else {
+        // sendEmail.sendEmail(data);
+        res.status(200).json({
+          success: true,
+          message: 'Đăng kí thành công',
+          data: result
+        });
+      }
+  });
+};
+
