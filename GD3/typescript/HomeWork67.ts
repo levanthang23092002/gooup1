@@ -92,3 +92,4 @@ warehouse.address = "173 Nguyễn Lương Bằng 1";
 console.log("Updated name:", warehouse.name);  // Output: New Warehouse
 console.log("Updated storage:", warehouse.storage);  // Output: 2000
 console.log("Updated address:", warehouse.address);  // Output: 456 Elm Street
+
