@@ -1,11 +1,8 @@
-
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const verifyToken = require('../config/verifyToken')
-const permission = require('../middlewares/checkPermission')
-
-
+// const verifyToken = require('../config/verifyToken');
+const permission = require('../middlewares/checkPermission');
 
 /**
  * @openapi
@@ -31,10 +28,10 @@ const permission = require('../middlewares/checkPermission')
  *                  name:
  *                    type: string
  *       400:
- *         description: Unauthorized 
+ *         description: Unauthorized
  */
 
-router.get('/allhotel' ,permission.permission(['ADMIN','SUPAD']),userController.getAllHotel);
+router.get('/allhotel', permission.permission(['ADMIN', 'SUPAD']), userController.getAllHotel);
 // router.get('/Hotel',verifyToken.verifyToken, userController.getAllHotel);
 
 /**
@@ -66,9 +63,9 @@ router.get('/allhotel' ,permission.permission(['ADMIN','SUPAD']),userController.
  *                  name:
  *                    type: string
  *       400:
- *         description: Unauthorized 
+ *         description: Unauthorized
  */
-router.get('/hotel/:id',permission.permission(['ADMIN','SUPAD']), userController.getHotel);
+router.get('/hotel/:id', permission.permission(['ADMIN', 'SUPAD']), userController.getHotel);
 
 /**
  * @openapi
@@ -118,7 +115,7 @@ router.get('/hotel/:id',permission.permission(['ADMIN','SUPAD']), userController
  *       '400':
  *         description: Unauthorized
  */
-router.put('/updateHotel/:id', permission.permission(['ADMIN','SUPAD']), userController.updateHotel);
+router.put('/updateHotel/:id', permission.permission(['ADMIN', 'SUPAD']), userController.updateHotel);
 /**
  * @openapi
  * '/api/deletehotel/{id}':
@@ -148,9 +145,9 @@ router.put('/updateHotel/:id', permission.permission(['ADMIN','SUPAD']), userCon
  *                  name:
  *                    type: string
  *       400:
- *         description: Unauthorized 
+ *         description: Unauthorized
  */
-router.delete('/deletehotel/:id',permission.permission(['ADMIN','SUPAD']), userController.deleteHotel);
+router.delete('/deletehotel/:id', permission.permission(['ADMIN', 'SUPAD']), userController.deleteHotel);
 
 /**
  * @openapi
@@ -159,7 +156,7 @@ router.delete('/deletehotel/:id',permission.permission(['ADMIN','SUPAD']), userC
  *     tags:
  *     - ADMIN
  *     summary: Get all admin
- *    
+ *
  *     responses:
  *       200:
  *         description: Success
@@ -175,10 +172,10 @@ router.delete('/deletehotel/:id',permission.permission(['ADMIN','SUPAD']), userC
  *                  name:
  *                    type: string
  *       400:
- *         description: Bad request 
+ *         description: Bad request
  */
 
-router.get('/allAdmin', permission.permission(['SUPAD']),userController.getalladmin)
+router.get('/allAdmin', permission.permission(['SUPAD']), userController.getalladmin);
 
 /**
  * @openapi
@@ -191,7 +188,7 @@ router.get('/allAdmin', permission.permission(['SUPAD']),userController.getallad
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID of the admin 
+ *         description: ID of the admin
  *         schema:
  *           type: number
  *     responses:
@@ -209,10 +206,10 @@ router.get('/allAdmin', permission.permission(['SUPAD']),userController.getallad
  *                  name:
  *                    type: string
  *       400:
- *         description: Bad request 
+ *         description: Bad request
  */
 
-router.get('/admin/:id', permission.permission(['SUPAD']),userController.getAdmin)
+router.get('/admin/:id', permission.permission(['SUPAD']), userController.getAdmin);
 
 /**
  * @openapi
@@ -245,7 +242,7 @@ router.get('/admin/:id', permission.permission(['SUPAD']),userController.getAdmi
  *                 type: string
  *               role:
  *                 type: string
- *               
+ *
  *     responses:
  *       '200':
  *         description: Success
@@ -261,7 +258,7 @@ router.get('/admin/:id', permission.permission(['SUPAD']),userController.getAdmi
  *       '400':
  *         description: Unauthorized
  */
-router.put('/updateAdmin/:id',  permission.permission(['SUPAD']), userController.updateAdmin);
+router.put('/updateAdmin/:id', permission.permission(['SUPAD']), userController.updateAdmin);
 
 /**
  * @openapi
@@ -306,7 +303,7 @@ router.put('/updateAdmin/:id',  permission.permission(['SUPAD']), userController
  *       '400':
  *         description: Unauthorized
  */
-router.post('/addroom', permission.permission(['USER']),  userController.addRoom);
+router.post('/addroom', permission.permission(['USER']), userController.addRoom);
 
 /**
  * @openapi
@@ -337,7 +334,7 @@ router.post('/addroom', permission.permission(['USER']),  userController.addRoom
  *       '400':
  *         description: Unauthorized
  */
-router.put('/approveRoom/:id',  permission.permission(['ADMIN']),  userController.approveRoom);
+router.put('/approveRoom/:id', permission.permission(['ADMIN']), userController.approveRoom);
 
 /**
  * @openapi
@@ -368,7 +365,7 @@ router.put('/approveRoom/:id',  permission.permission(['ADMIN']),  userControlle
  *       '400':
  *         description: Unauthorized
  */
-router.post('/bookingRoom/:id',  permission.permission(['USER']),  userController.bookRoom);
+router.post('/bookingRoom/:id', permission.permission(['USER']), userController.bookRoom);
 
 /**
  * @openapi
@@ -409,7 +406,7 @@ router.post('/bookingRoom/:id',  permission.permission(['USER']),  userControlle
  *       '400':
  *         description: Unauthorized
  */
-router.post('/register',  userController.register);
+router.post('/register', userController.register);
 /**
  * @openapi
  * '/api/room':
@@ -434,11 +431,10 @@ router.post('/register',  userController.register);
  *                  name:
  *                    type: string
  *       400:
- *         description: Bad request 
+ *         description: Bad request
  */
 
-
-router.get('/room', userController.getAllRoom)
+router.get('/room', userController.getAllRoom);
 
 /**
  * @openapi
@@ -469,10 +465,10 @@ router.get('/room', userController.getAllRoom)
  *                  name:
  *                    type: string
  *       400:
- *         description: Bad request 
+ *         description: Bad request
  */
 
-router.get('/user/:id', userController.getUser)
+router.get('/user/:id', userController.getUser);
 
 /**
  * @openapi
@@ -503,10 +499,10 @@ router.get('/user/:id', userController.getUser)
  *                  name:
  *                    type: string
  *       400:
- *         description: Bad request 
+ *         description: Bad request
  */
 
-router.get('/user/:id/AllRoomBooking', userController.getAllRoomBooking)
+router.get('/user/:id/AllRoomBooking', userController.getAllRoomBooking);
 /**
  * @openapi
  * '/api/roombooking/{id}':
@@ -536,7 +532,7 @@ router.get('/user/:id/AllRoomBooking', userController.getAllRoomBooking)
  *                  name:
  *                    type: string
  *       400:
- *         description: Bad request 
+ *         description: Bad request
  */
 router.get('/roombooking/:id', userController.getRoomBooking);
 
@@ -562,12 +558,9 @@ router.get('/roombooking/:id', userController.getRoomBooking);
  *                  name:
  *                    type: string
  *       400:
- *         description: Bad request 
+ *         description: Bad request
  */
 
-router.get('/AllEvaluate', userController.getAllEvaluate)
+router.get('/AllEvaluate', userController.getAllEvaluate);
 
 module.exports = router;
-
-
-

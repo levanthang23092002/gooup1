@@ -212,15 +212,13 @@ exports.updateAdmin = (req, res) => {
         error_code: error
       });
     } else {
-      console.log(results)
       if (results === 0) {
         res.status(404).json({
           success: false,
-          message: 'Addmin not found',
+          message: 'Admin not found',
           data: req.body,
           error_code: ''
         });
-
       } else {
         res.status(200).json({
           success: true,
@@ -316,7 +314,7 @@ exports.approveRoom = (req, res) => {
 exports.bookRoom = (req, res) => {
   const idroom = req.params.id;
   const authtoken = req.headers['authorization'];
-  token = authtoken.split(' ')[1];
+  const token = authtoken.split(' ')[1];
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
 
@@ -521,7 +519,7 @@ exports.register = (req, res) => {
           data: {}
         });
       } else {
-        // sendEmail.sendEmail(data);
+        sendEmail.sendEmail(data);
         res.status(200).json({
           success: true,
           message: 'Đăng kí thành công',
