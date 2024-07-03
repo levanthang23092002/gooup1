@@ -1,7 +1,15 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Inject } from '@nestjs/common';
+import { I18nService } from 'nestjs-i18n';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 
 @Injectable()
 export class PostsService {
+  constructor(
+    private readonly i18n: I18nService,
+    @Inject(REQUEST) private readonly request: Request,
+  ) {}
+
   posts = [
     {
       id: 1,
@@ -18,36 +26,44 @@ export class PostsService {
       email: 'nguyenhuuphuc@gmail.com',
     },
   ];
+
   getPosts(): Promise<any> {
     return new Promise((resolve) => {
       resolve(this.posts);
     });
   }
-  getPost(postId): Promise<any> {
+
+  async getPost(postId): Promise<any> {
     const id = Number(postId);
-    return new Promise((resolve) => {
-      const post = this.posts.find((post) => post.id === id);
-      if (!post) {
-        throw new HttpException('Post not found', 404);
-      }
-      resolve(post);
-    });
+    const post = this.posts.find((post) => post.id === id);
+    if (!post) {
+      const lang = this.request.headers['accept-language'] || 'vi';
+      throw new HttpException(
+        await this.i18n.translate('test.notFound', { lang }),
+        404,
+      );
+    }
+    return post;
   }
+
   addPost(post): Promise<any> {
     return new Promise((resolve) => {
       this.posts.push(post);
       resolve(this.posts);
     });
   }
-  deletePost(postId): Promise<any> {
+
+  async deletePost(postId): Promise<any> {
     const id = Number(postId);
-    return new Promise((resolve) => {
-      const index = this.posts.findIndex((post) => post.id === id);
-      if (index === -1) {
-        throw new HttpException('Post not found', 404);
-      }
-      this.posts.splice(index, 1);
-      resolve(this.posts);
-    });
+    const index = this.posts.findIndex((post) => post.id === id);
+    if (index === -1) {
+      const lang = this.request.headers['accept-language'] || 'en';
+      throw new HttpException(
+        await this.i18n.translate('test.notFound', { lang }),
+        404,
+      );
+    }
+    this.posts.splice(index, 1);
+    return this.posts;
   }
 }
