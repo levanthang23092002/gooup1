@@ -1,25 +1,33 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { PostsService } from './posts.service';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { CreatePostDto } from './create-post.dto';
 
 @Controller('user')
 export class PostsController {
   constructor(private postService: PostsService) {}
-  @Get()
-  async getPosts() {
-    const posts = await this.postService.getPosts();
-    return posts;
-  }
   @Get(':postId')
-  async getCourse(@Param('postId') postId) {
+  async getPost(@Param('postId') postId) {
     const post = await this.postService.getPost(postId);
     return post;
   }
+
+  @Get()
+  async getPostsName(@Query('name') name: string) {
+    const posts = await this.postService.getPostsByName(name);
+    return posts;
+  }
+
   @Post()
-  async addPost(@Body() CreatePostDto: CreatePostDto) {
-    const post = await this.postService.addPost(CreatePostDto);
+  async addPost(@Body() createPostDto: CreatePostDto) {
+    const post = await this.postService.addPost(createPostDto);
     return post;
   }
 

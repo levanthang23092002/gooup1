@@ -55,7 +55,7 @@ var PostsService = /** @class */ (function () {
         this.posts = [
             {
                 id: 1,
-                name: 'thắng',
+                name: 'thang',
                 title: 'is member NodeJS',
                 description: 'Homework 79',
                 email: 'levanthang@gmail.com'
@@ -71,6 +71,7 @@ var PostsService = /** @class */ (function () {
     }
     PostsService.prototype.getPosts = function () {
         var _this = this;
+        console.log("Searching for posts with name");
         return new Promise(function (resolve) {
             resolve(_this.posts);
         });
@@ -86,9 +87,26 @@ var PostsService = /** @class */ (function () {
                         if (!!post) return [3 /*break*/, 2];
                         lang = this.request.headers['accept-language'] || 'vi';
                         _a = common_1.HttpException.bind;
-                        return [4 /*yield*/, this.i18n.translate('test.notFound', { lang: lang })];
+                        return [4 /*yield*/, this.i18n.translate('test.HELLO', { lang: lang })];
                     case 1: throw new (_a.apply(common_1.HttpException, [void 0, _b.sent(), 404]))();
                     case 2: return [2 /*return*/, post];
+                }
+            });
+        });
+    };
+    PostsService.prototype.getPostsByName = function (name) {
+        return __awaiter(this, void 0, Promise, function () {
+            var posts, lang, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        posts = this.posts.filter(function (post) { return post.name.toLowerCase() == name.toLowerCase(); });
+                        if (!(posts.length === 0)) return [3 /*break*/, 2];
+                        lang = this.request.headers['accept-language'] || 'vi';
+                        _a = common_1.HttpException.bind;
+                        return [4 /*yield*/, this.i18n.translate('test.notFound', { lang: lang })];
+                    case 1: throw new (_a.apply(common_1.HttpException, [void 0, _b.sent(), 404]))();
+                    case 2: return [2 /*return*/, posts];
                 }
             });
         });
