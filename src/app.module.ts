@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HelloController } from './hello/hello.controller';
+import { DecoratorModule } from './decorator/decorator.module';
 import { PostsModule } from './user/posts.module';
 import { PostsService } from './user/posts.service';
 import { DatabaseModule } from './DatabaseModule/database.module';
@@ -31,6 +32,7 @@ import { join } from 'path';
     ConfigModule, // Sử dụng ConfigModule để tải các biến môi trường
     DatabaseModule.forRootAsync(), // Sử dụng DatabaseModule
     PostsModule,
+    DecoratorModule,
   ],
   controllers: [AppController, HelloController],
   providers: [AppService, PostsService],
